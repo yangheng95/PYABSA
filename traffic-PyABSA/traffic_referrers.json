@@ -1,28 +1,28 @@
 [
   {
     "referrer": "github.com",
-    "count": 907,
-    "uniques": 102
+    "count": 767,
+    "uniques": 94
   },
   {
     "referrer": "Google",
-    "count": 607,
-    "uniques": 96
+    "count": 579,
+    "uniques": 90
   },
   {
     "referrer": "paperswithcode.com",
-    "count": 447,
-    "uniques": 42
+    "count": 436,
+    "uniques": 41
   },
   {
     "referrer": "huggingface.co",
-    "count": 293,
-    "uniques": 42
+    "count": 276,
+    "uniques": 36
   },
   {
     "referrer": "youtube.com",
-    "count": 116,
-    "uniques": 32
+    "count": 107,
+    "uniques": 27
   },
   {
     "referrer": "yangheng-pyabsa.hf.space",

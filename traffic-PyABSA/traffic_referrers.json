@@ -1,33 +1,33 @@
 [
   {
     "referrer": "Google",
-    "count": 717,
-    "uniques": 83
+    "count": 679,
+    "uniques": 81
   },
   {
     "referrer": "github.com",
-    "count": 488,
-    "uniques": 77
+    "count": 416,
+    "uniques": 73
   },
   {
     "referrer": "paperswithcode.com",
-    "count": 348,
+    "count": 353,
     "uniques": 22
   },
   {
     "referrer": "pyabsa.readthedocs.io",
-    "count": 245,
-    "uniques": 22
+    "count": 239,
+    "uniques": 20
   },
   {
     "referrer": "huggingface.co",
-    "count": 194,
-    "uniques": 32
+    "count": 150,
+    "uniques": 27
   },
   {
     "referrer": "Bing",
-    "count": 56,
-    "uniques": 10
+    "count": 53,
+    "uniques": 8
   },
   {
     "referrer": "arxiv.org",
@@ -36,13 +36,13 @@
   },
   {
     "referrer": "youtube.com",
-    "count": 40,
-    "uniques": 16
+    "count": 31,
+    "uniques": 14
   },
   {
     "referrer": "cn.bing.com",
-    "count": 26,
-    "uniques": 5
+    "count": 27,
+    "uniques": 6
   },
   {
     "referrer": "notebooks.githubusercontent.com",

@@ -1,12 +1,7 @@
 [
   {
-    "referrer": "pyabsa.readthedocs.io",
-    "count": 360,
-    "uniques": 11
-  },
-  {
     "referrer": "Google",
-    "count": 347,
+    "count": 355,
     "uniques": 69
   },
   {
@@ -15,23 +10,28 @@
     "uniques": 6
   },
   {
-    "referrer": "github.com",
-    "count": 191,
-    "uniques": 36
+    "referrer": "huggingface.co",
+    "count": 210,
+    "uniques": 27
   },
   {
-    "referrer": "huggingface.co",
-    "count": 181,
-    "uniques": 28
+    "referrer": "pyabsa.readthedocs.io",
+    "count": 192,
+    "uniques": 9
+  },
+  {
+    "referrer": "github.com",
+    "count": 171,
+    "uniques": 35
   },
   {
     "referrer": "paperswithcode.com",
-    "count": 118,
-    "uniques": 28
+    "count": 117,
+    "uniques": 27
   },
   {
     "referrer": "reddit.com",
-    "count": 47,
+    "count": 43,
     "uniques": 10
   },
   {

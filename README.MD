@@ -1,4 +1,4 @@
-# PyABSA - Open Framework for Aspect-based Sentiment Analysis ([paper](https://dl.acm.org/doi/abs/10.1145/3583780.3614752))
+# PyABSA: A Modularized Framework for Reproducible Aspect-based Sentiment Analysis ([paper](https://dl.acm.org/doi/abs/10.1145/3583780.3614752))
 
 ![PyPI - Python Version](https://img.shields.io/badge/python-3.6-blue.svg)
 [![PyPI](https://img.shields.io/pypi/v/pyabsa)](https://pypi.org/project/pyabsa/)

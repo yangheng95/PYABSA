@@ -1,32 +1,32 @@
 [
   {
     "referrer": "Google",
-    "count": 204,
-    "uniques": 47
+    "count": 238,
+    "uniques": 51
   },
   {
     "referrer": "huggingface.co",
-    "count": 133,
-    "uniques": 23
+    "count": 121,
+    "uniques": 22
   },
   {
     "referrer": "paperswithcode.com",
-    "count": 80,
-    "uniques": 27
+    "count": 90,
+    "uniques": 29
   },
   {
     "referrer": "github.com",
-    "count": 79,
-    "uniques": 24
+    "count": 80,
+    "uniques": 25
   },
   {
     "referrer": "youtube.com",
-    "count": 56,
-    "uniques": 13
+    "count": 33,
+    "uniques": 10
   },
   {
     "referrer": "cn.bing.com",
-    "count": 27,
+    "count": 28,
     "uniques": 6
   },
   {
@@ -40,13 +40,13 @@
     "uniques": 5
   },
   {
-    "referrer": "freegpt.tech",
-    "count": 14,
-    "uniques": 3
-  },
-  {
     "referrer": "chatgpt.com",
     "count": 10,
     "uniques": 5
+  },
+  {
+    "referrer": "colab.research.google.com",
+    "count": 9,
+    "uniques": 1
   }
 ]

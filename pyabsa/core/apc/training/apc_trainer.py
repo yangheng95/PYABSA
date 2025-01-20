@@ -16,6 +16,7 @@ import torch
 import torch.nn as nn
 from findfile import find_file
 from sklearn import metrics
+from sklearn.metrics import precision_score, recall_score, confusion_matrix
 from torch import cuda
 from torch.utils.data import (
     DataLoader,
@@ -247,7 +248,9 @@ class Instructor:
         NonTrainable_params = 0
 
         for param in self.model.parameters():
-            mulValue = numpy.prod(param.size())  # 使用numpy prod接口计算参数数组所有元素之积
+            mulValue = numpy.prod(
+                param.size()
+            )  # 使用numpy prod接口计算参数数组所有元素之积
             Total_params += mulValue  # 总参数量
             if param.requires_grad:
                 Trainable_params += mulValue  # 可训练参数量
@@ -388,9 +391,9 @@ class Instructor:
                                     test_acc
                                     > self.opt.max_test_metrics["max_apc_test_acc"]
                                 ):
-                                    self.opt.max_test_metrics[
-                                        "max_apc_test_acc"
-                                    ] = test_acc
+                                    self.opt.max_test_metrics["max_apc_test_acc"] = (
+                                        test_acc
+                                    )
                                 if f1 > self.opt.max_test_metrics["max_apc_test_f1"]:
                                     self.opt.max_test_metrics["max_apc_test_f1"] = f1
 
@@ -434,6 +437,18 @@ class Instructor:
             self.opt.MV.add_metric("Max-Test-F1 w/o Valid Set", max_fold_f1 * 100)
 
         if self.val_dataloaders:
+            test_acc, test_f1, test_precision, test_recall, cm = self._evaluate_metrics(
+                self.val_dataloaders[0]
+            )
+
+            # Log metrics to MetricVisualizer
+            self.opt.MV.log_metric("Accuracy", test_acc, epoch)
+            self.opt.MV.log_metric("F1", test_f1, epoch)
+            self.opt.MV.log_metric("Precision", test_precision, epoch)
+            self.opt.MV.log_metric("Recall", test_recall, epoch)
+
+            # Log confusion matrix
+            self.opt.MV.log_confusion_matrix(cm, self.opt.index_to_label, epoch)
             print(
                 "Loading best model: {} and evaluating on test set ...".format(
                     save_path
@@ -447,6 +462,7 @@ class Instructor:
             # shutil.rmtree(save_path)
 
         self.logger.info(self.opt.MV.summary(no_print=True))
+        self.opt.MV.summary(save_path="metrics_output", show_plots=True)
 
         print(
             "Training finished, we hope you can share your checkpoint with community, please see:",
@@ -484,6 +500,69 @@ class Instructor:
             cuda.empty_cache()
             time.sleep(3)
             return self.model, self.opt, self.tokenizer
+
+    def _evaluate_metrics(self, test_dataloader):
+        # switch model to evaluation mode
+        self.model.eval()
+        n_test_correct, n_test_total = 0, 0
+        t_targets_all, t_outputs_all = None, None
+        with torch.no_grad():
+            for t_batch, t_sample_batched in enumerate(test_dataloader):
+                t_inputs = {
+                    col: t_sample_batched[col].to(self.opt.device)
+                    for col in self.opt.inputs_cols
+                }
+                t_targets = t_sample_batched["polarity"].to(self.opt.device)
+                t_outputs = self.model(t_inputs)
+
+                if isinstance(t_outputs, dict):
+                    sen_outputs = t_outputs["logits"]
+                else:
+                    sen_outputs = t_outputs
+
+                n_test_correct += (
+                    (torch.argmax(sen_outputs, -1) == t_targets).sum().item()
+                )
+                n_test_total += len(sen_outputs)
+
+                if t_targets_all is None:
+                    t_targets_all = t_targets
+                    t_outputs_all = sen_outputs
+                else:
+                    t_targets_all = torch.cat((t_targets_all, t_targets), dim=0)
+                    t_outputs_all = torch.cat((t_outputs_all, sen_outputs), dim=0)
+
+        test_acc = n_test_correct / n_test_total
+
+        # Convert tensors to numpy arrays
+        t_targets_all = t_targets_all.cpu().numpy()
+        t_outputs_all = torch.argmax(t_outputs_all, -1).cpu().numpy()
+
+        f1 = metrics.f1_score(
+            t_targets_all,
+            t_outputs_all,
+            labels=list(range(self.opt.polarities_dim)),
+            average="macro",
+        )
+        precision = precision_score(
+            t_targets_all,
+            t_outputs_all,
+            labels=list(range(self.opt.polarities_dim)),
+            average="macro",
+        )
+        recall = recall_score(
+            t_targets_all,
+            t_outputs_all,
+            labels=list(range(self.opt.polarities_dim)),
+            average="macro",
+        )
+        cm = confusion_matrix(
+            t_targets_all,
+            t_outputs_all,
+            labels=list(range(self.opt.polarities_dim)),
+        )
+
+        return test_acc, f1, precision, recall, cm
 
     def _k_fold_train_and_evaluate(self, criterion):
         fold_test_acc = []
@@ -639,9 +718,9 @@ class Instructor:
                                         f1
                                         > self.opt.max_test_metrics["max_apc_test_f1"]
                                     ):
-                                        self.opt.max_test_metrics[
-                                            "max_apc_test_f1"
-                                        ] = f1
+                                        self.opt.max_test_metrics["max_apc_test_f1"] = (
+                                            f1
+                                        )
 
                                     save_model(
                                         self.opt, self.model, self.tokenizer, save_path
